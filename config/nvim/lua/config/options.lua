@@ -47,6 +47,9 @@ opt.wildmode = "longest:full,full"
 opt.winminwidth = 5
 opt.wrap = false
 
+-- Cursor settings - keep block cursor in all modes without blinking
+opt.guicursor = "a:block-blinkon0"
+
 -- Performance
 opt.redrawtime = 10000
 opt.maxmempattern = 20000
