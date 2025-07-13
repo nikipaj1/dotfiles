@@ -70,6 +70,8 @@ return {
         "css",
         "dockerfile",
         "rust",
+        "terraform",
+        "hcl",
       },
       incremental_selection = {
         enable = true,

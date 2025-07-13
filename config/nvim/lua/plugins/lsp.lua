@@ -19,6 +19,18 @@ return {
           prefix = "●",
         },
         severity_sort = true,
+        float = {
+          focusable = true,
+          style = "minimal",
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+          width = 80,
+          max_width = 120,
+          max_height = 20,
+          wrap = true,
+        },
       },
       inlay_hints = {
         enabled = true,
@@ -94,6 +106,19 @@ return {
               },
               completion = {
                 callSnippet = "Replace",
+              },
+            },
+          },
+        },
+        -- Terraform
+        terraformls = {
+          settings = {
+            terraform = {
+              validation = {
+                enable = true,
+              },
+              format = {
+                enable = true,
               },
             },
           },
@@ -208,6 +233,8 @@ return {
         "yaml-language-server",
         "html-lsp",
         "css-lsp",
+        "terraform-ls",
+        "tflint",
       },
     },
     config = function(_, opts)
@@ -237,3 +264,4 @@ return {
     end,
   },
 } 
+

@@ -115,4 +115,106 @@ map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 -- Additional tab management
 map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close all other tabs" })
 map("n", "<leader><tab>h", "<cmd>-tabmove<cr>", { desc = "Move tab left" })
-map("n", "<leader><tab>r", "<cmd>+tabmove<cr>", { desc = "Move tab right" }) 
+map("n", "<leader><tab>r", "<cmd>+tabmove<cr>", { desc = "Move tab right" })
+
+-- Diagnostic keymaps
+map("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic in float" })
+map("n", "<leader>E", function()
+  vim.diagnostic.open_float({ scope = "buffer" })
+end, { desc = "Show buffer diagnostics in float" })
+map("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic" })
+map("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic" })
+map("n", "<leader>dl", vim.diagnostic.setloclist, { desc = "Set diagnostic loclist" })
+map("n", "<leader>dq", vim.diagnostic.setqflist, { desc = "Set diagnostic quickfix" })
+
+-- Enhanced diagnostic display with copy functionality
+map("n", "<leader>dc", function()
+  local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+  if #diagnostics > 0 then
+    local diagnostic = diagnostics[1]
+    local message = diagnostic.message
+    vim.fn.setreg('+', message)
+    vim.fn.setreg('"', message)
+    vim.notify('Diagnostic copied to clipboard: ' .. message:sub(1, 50) .. (message:len() > 50 and '...' or ''), vim.log.levels.INFO)
+  else
+    vim.notify('No diagnostic found at cursor', vim.log.levels.WARN)
+  end
+end, { desc = "Copy diagnostic message" })
+
+-- Enhanced error float with larger window and copy instruction
+map("n", "<leader>ef", function()
+  local diagnostics = vim.diagnostic.get(0, { lnum = vim.fn.line('.') - 1 })
+  if #diagnostics > 0 then
+    local diagnostic = diagnostics[1]
+    local message = diagnostic.message
+    local severity = vim.diagnostic.severity[diagnostic.severity]
+    
+    -- Create a custom floating window with better formatting
+    local lines = {}
+    table.insert(lines, string.format("[%s] %s", severity, diagnostic.source or "LSP"))
+    table.insert(lines, "")
+    
+    -- Split long messages into multiple lines
+    local max_width = 80
+    local words = {}
+    for word in message:gmatch("%S+") do
+      table.insert(words, word)
+    end
+    
+    local current_line = ""
+    for _, word in ipairs(words) do
+      if #current_line + #word + 1 <= max_width then
+        current_line = current_line .. (current_line ~= "" and " " or "") .. word
+      else
+        if current_line ~= "" then
+          table.insert(lines, current_line)
+        end
+        current_line = word
+      end
+    end
+    if current_line ~= "" then
+      table.insert(lines, current_line)
+    end
+    
+    table.insert(lines, "")
+    table.insert(lines, "Press 'y' to copy this message to clipboard")
+    
+    local buf = vim.api.nvim_create_buf(false, true)
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    vim.api.nvim_buf_set_option(buf, 'modifiable', false)
+    vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+    
+    local width = math.min(max_width, vim.o.columns - 4)
+    local height = math.min(#lines, math.floor(vim.o.lines * 0.8))
+    
+    local win = vim.api.nvim_open_win(buf, true, {
+      relative = 'editor',
+      width = width,
+      height = height,
+      col = math.floor((vim.o.columns - width) / 2),
+      row = math.floor((vim.o.lines - height) / 2),
+      style = 'minimal',
+      border = 'rounded',
+      title = ' Diagnostic Error ',
+      title_pos = 'center',
+    })
+    
+    vim.api.nvim_win_set_option(win, 'wrap', true)
+    vim.api.nvim_win_set_option(win, 'linebreak', true)
+    
+    -- Set up keybindings for the floating window
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = buf, silent = true })
+    vim.keymap.set('n', '<Esc>', '<cmd>close<cr>', { buffer = buf, silent = true })
+    vim.keymap.set('n', 'y', function()
+      vim.fn.setreg('+', message)
+      vim.fn.setreg('"', message)
+      vim.notify('Diagnostic copied to clipboard!', vim.log.levels.INFO)
+      vim.cmd('close')
+    end, { buffer = buf, silent = true })
+    
+    -- Set syntax highlighting
+    vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+  else
+    vim.notify('No diagnostic found at cursor', vim.log.levels.WARN)
+  end
+end, { desc = "Enhanced diagnostic float with copy" }) 
