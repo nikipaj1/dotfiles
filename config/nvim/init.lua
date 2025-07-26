@@ -31,7 +31,7 @@ require("lazy").setup("plugins", {
     version = false,
   },
   install = { colorscheme = { "dracula" } },
-  checker = { enabled = true },
+  checker = { enabled = false },
   performance = {
     rtp = {
       disabled_plugins = {

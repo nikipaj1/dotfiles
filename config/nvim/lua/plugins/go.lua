@@ -11,7 +11,6 @@ return {
       require("go").setup({
         goimport = "gopls",
         gofmt = "gofumpt",
-        max_line_len = 120,
         tag_transform = false,
         test_dir = "",
         comment_placeholder = "   ",

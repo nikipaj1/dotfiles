@@ -69,14 +69,13 @@ map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit all" })
 -- Highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
 
--- Terminal Mappings (updated to use leader)
+-- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-map("t", "<leader>h", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
-map("t", "<leader>j", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
-map("t", "<leader>k", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
-map("t", "<leader>l", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+
+-- Open terminal in a new buffer
+map("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Open terminal in new buffer" })
 
 -- Windows/Panes Management
 map("n", "<leader>ww", "<C-W>p", { desc = "Other window" })
