@@ -6,31 +6,29 @@ return {
     event = "VeryLazy",
     opts = {
       plugins = { spelling = true },
-      defaults = {
-        mode = { "n", "v" },
-        ["g"] = { name = "+goto" },
-        ["gs"] = { name = "+surround" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
-        ["<leader><tab>"] = { name = "+tabs" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>f"] = { name = "+file/find" },
-        ["<leader>g"] = { name = "+git" },
-        ["<leader>gh"] = { name = "+hunks" },
-        ["<leader>q"] = { name = "+quit/session" },
-        ["<leader>s"] = { name = "+search" },
-        ["<leader>u"] = { name = "+ui" },
-        ["<leader>w"] = { name = "+windows" },
-        ["<leader>x"] = { name = "+diagnostics/quickfix" },
-        ["<leader>n"] = { name = "+npm/node" },
-        ["<leader>t"] = { name = "+terminal/test" },
-      },
     },
     config = function(_, opts)
       local wk = require("which-key")
       wk.setup(opts)
-      wk.register(opts.defaults)
+      wk.add({
+        { "g", group = "goto" },
+        { "gs", group = "surround" },
+        { "]", group = "next" },
+        { "[", group = "prev" },
+        { "<leader><tab>", group = "tabs" },
+        { "<leader>b", group = "buffer" },
+        { "<leader>c", group = "code" },
+        { "<leader>f", group = "file/find" },
+        { "<leader>g", group = "git" },
+        { "<leader>gh", group = "hunks" },
+        { "<leader>q", group = "quit/session" },
+        { "<leader>s", group = "search" },
+        { "<leader>u", group = "ui" },
+        { "<leader>w", group = "windows" },
+        { "<leader>x", group = "diagnostics/quickfix" },
+        { "<leader>n", group = "npm/node" },
+        { "<leader>t", group = "terminal/test" },
+      })
     end,
   },
 
@@ -109,8 +107,39 @@ return {
   -- Better commenting
   {
     "numToStr/Comment.nvim",
-    opts = {},
     lazy = false,
+    config = function()
+      local comment = require('Comment')
+      local ft = require('Comment.ft')
+      
+      comment.setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+        toggler = {
+          line = 'gcc',
+          block = 'gbc',
+        },
+        opleader = {
+          line = 'gc',
+          block = 'gb',
+        },
+      })
+      
+      -- Set both line and block comments to use JSX block style for TSX/JSX files
+      ft.set('typescriptreact', '{/*%s*/}')
+      ft.set('javascriptreact', '{/*%s*/}')
+      
+      -- Remap gc to gb for TSX/JSX files in visual mode
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "typescriptreact", "javascriptreact" },
+        callback = function()
+          -- In visual mode, make gc use block comment (gb)
+          vim.keymap.set("v", "gc", "gb", { buffer = true, remap = true, desc = "Use block comment for TSX" })
+        end,
+      })
+    end,
+    dependencies = {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+    },
   },
 
   -- Auto pairs
@@ -270,7 +299,6 @@ return {
   -- Formatting
   {
     "stevearc/conform.nvim",
-    dependencies = { "mason.nvim" },
     lazy = true,
     cmd = "ConformInfo",
     keys = {

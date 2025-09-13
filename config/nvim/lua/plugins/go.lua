@@ -14,7 +14,21 @@ return {
         tag_transform = false,
         test_dir = "",
         comment_placeholder = "   ",
-        lsp_cfg = true,
+        lsp_cfg = {
+          capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+              usePlaceholders = true,
+              completeUnimported = true,
+              matcher = "fuzzy",
+            },
+          },
+        },
         lsp_gofumpt = true,
         lsp_on_attach = true,
         dap_debug = true,

@@ -6,6 +6,7 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
+      "JoosepAlviste/nvim-ts-context-commentstring",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
         config = function()
@@ -105,6 +106,17 @@ return {
         end, opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
+      
+      -- Setup context commentstring for JSX/TSX
+      require('ts_context_commentstring').setup({
+        enable_autocmd = false,
+        languages = {
+          typescript = '// %s',
+          typescriptreact = '{/* %s */}',
+          javascript = '// %s',
+          javascriptreact = '{/* %s */}',
+        },
+      })
     end,
   },
 } 

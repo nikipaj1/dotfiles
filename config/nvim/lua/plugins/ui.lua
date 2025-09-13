@@ -264,24 +264,6 @@ return {
             { "filename", path = 1, symbols = { modified = "  ", readonly = "", unnamed = "" } },
           },
           lualine_x = {
-            {
-              function()
-                return require("noice").api.status.command.get()
-              end,
-              cond = function()
-                return package.loaded["noice"] and require("noice").api.status.command.has()
-              end,
-              color = { fg = "#ff9e64" },
-            },
-            {
-              function()
-                return require("noice").api.status.mode.get()
-              end,
-              cond = function()
-                return package.loaded["noice"] and require("noice").api.status.mode.has()
-              end,
-              color = { fg = "#ff9e64" },
-            },
             { "diff", symbols = icons.git },
             "encoding",
             "fileformat",
@@ -354,34 +336,6 @@ return {
     end,
   },
 
-  -- Better notifications
-  {
-    "rcarriga/nvim-notify",
-    keys = {
-      {
-        "<leader>un",
-        function()
-          require("notify").dismiss({ silent = true, pending = true })
-        end,
-        desc = "Dismiss all Notifications",
-      },
-    },
-    opts = {
-      timeout = 3000,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      on_open = function(win)
-        vim.api.nvim_win_set_config(win, { zindex = 100 })
-      end,
-    },
-    init = function()
-      vim.notify = require("notify")
-    end,
-  },
 
   -- Dashboard
   {
@@ -463,7 +417,6 @@ return {
           "Trouble",
           "lazy",
           "mason",
-          "notify",
           "toggleterm",
           "lazyterm",
         },
