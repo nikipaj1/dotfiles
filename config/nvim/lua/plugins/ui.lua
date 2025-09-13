@@ -337,20 +337,56 @@ return {
   },
 
 
+  -- ASCII art collection plugin
+  {
+    "MaximilianLloyd/ascii.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
   -- Dashboard
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
+    dependencies = { "MaximilianLloyd/ascii.nvim" },
     opts = function()
       local dashboard = require("alpha.themes.dashboard")
+      local ascii = require("ascii")
+      
+      -- Custom ASCII art
       local logo = [[
-██╗     ██╗   ██╗███╗   ██╗ █████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-██║     ██║   ██║████╗  ██║██╔══██╗██╔══██╗██║   ██║██║████╗ ████║
-██║     ██║   ██║██╔██╗ ██║███████║██████╔╝██║   ██║██║██╔████╔██║
-██║     ██║   ██║██║╚██╗██║██╔══██║██╔══██╗╚██╗ ██╔╝██║██║╚██╔╝██║
-███████╗╚██████╔╝██║ ╚████║██║  ██║██║  ██║ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝  ╚═╝  ╚═══╝  ╚═╝╚═╝     ╚═╝
-      ]]
+       ,
+       \`-._           __
+        \\  `-..____,.'  `.
+         :`.         /    \`.
+         :  )       :      : \
+          ;'        '   ;  |  :
+          )..      .. .:.`.;  :
+         /::...  .:::...   ` ;
+         ; _ '    __        /:\
+         `:o>   /\o_>      ;:. `.
+        `-`.__ ;   __..--- /:.   \
+        === \_/   ;=====_.':.     ;
+         ,/'`--'...`--....        ;
+              ;                    ;
+            .'                      ;
+          .'                        ;
+        .'     ..     ,      .       ;
+       :       ::..  /      ;::.     |
+      /      `.;::.  |       ;:..    ;
+     :         |:.   :       ;:.    ;
+     :         ::     ;:..   |.    ;
+      :       :;      :::....|     |
+      /\     ,/ \      ;:::::;     ;
+    .:. \:..|    :     ; '.--|     ;
+   ::.  :''  `-.,,;     ;'   ;     ;
+.-'. _.'\      / `;      \,__:      \
+`---'    `----'   ;      /    \,.,,,/
+                   `----`              ]]
+      
+      -- Alternative: Get a random cat each time
+      -- local logo = table.concat(ascii.get_random("animals", "cats"), "\n")
 
       dashboard.section.header.val = vim.split(logo, "\n")
       dashboard.section.buttons.val = {
