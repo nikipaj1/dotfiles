@@ -1,30 +1,19 @@
--- Cyberdream colorscheme configuration
+-- VSCode colorscheme configuration
 return {
   {
-    "scottmckendry/cyberdream.nvim",
+    "Mofiqul/vscode.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      require("cyberdream").setup({
-        transparent = true, -- Enable transparency to see terminal background
+      require("vscode").setup({
+        transparent = false,
         italic_comments = true,
-        hide_fillchars = false,
-        borderless_telescope = true,
-        terminal_colors = true,
-        theme = {
-          variant = "light", -- Use light variant for the vibrant gradient look
-        },
-        extensions = {
-          telescope = true,
-          mini = true,
-          cmp = true,
-          gitsigns = true,
-          treesitter = true,
-          whichkey = true,
-          alpha = true,
-        },
+        disable_nvimtree_bg = true,
+        -- Use 'dark' or 'light' theme
+        color_overrides = {},
+        group_overrides = {},
       })
-      vim.cmd.colorscheme("cyberdream")
+      require("vscode").load()
     end,
   },
 } 

@@ -13,47 +13,7 @@ return {
         end,
       },
     },
-    cmd = "Telescope",
-    keys = {
-      { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
-      { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
-      { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-      { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
-      { "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent Files" },
-      { "<leader>fc", "<cmd>Telescope commands<cr>", desc = "Commands" },
-      { "<leader>fs", "<cmd>Telescope grep_string<cr>", desc = "Grep String" },
-      { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Word under cursor" },
-      { "<leader>fk", "<cmd>Telescope keymaps<cr>", desc = "Keymaps" },
-      { "<leader>ft", "<cmd>Telescope filetypes<cr>", desc = "File Types" },
-      { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
-      { "<leader>fq", "<cmd>Telescope quickfix<cr>", desc = "Quickfix" },
-      { "<leader>fl", "<cmd>Telescope loclist<cr>", desc = "Location List" },
-      { "<leader>fj", "<cmd>Telescope jumplist<cr>", desc = "Jumplist" },
-      { "<leader>fm", "<cmd>Telescope marks<cr>", desc = "Marks" },
-      { "<leader>fR", "<cmd>Telescope registers<cr>", desc = "Registers" },
-      { "<leader>fo", "<cmd>Telescope vim_options<cr>", desc = "Vim Options" },
-      { "<leader>fa", "<cmd>Telescope autocommands<cr>", desc = "Autocommands" },
-      { "<leader>fH", "<cmd>Telescope highlights<cr>", desc = "Highlights" },
-      { "<leader>f/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer Fuzzy Find" },
-      { "<leader>f:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-      { "<leader>f;", "<cmd>Telescope search_history<cr>", desc = "Search History" },
-      -- Git
-      { "<leader>gf", "<cmd>Telescope git_files<cr>", desc = "Git Files" },
-      { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = "Git Status" },
-      { "<leader>gb", "<cmd>Telescope git_branches<cr>", desc = "Git Branches" },
-      { "<leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Git Commits" },
-      { "<leader>gC", "<cmd>Telescope git_bcommits<cr>", desc = "Git Buffer Commits" },
-      { "<leader>gh", "<cmd>Telescope git_stash<cr>", desc = "Git Stash" },
-      -- LSP
-      { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "Go to Definition" },
-      { "gD", "<cmd>Telescope lsp_declarations<cr>", desc = "Go to Declaration" },
-      { "gr", "<cmd>Telescope lsp_references<cr>", desc = "Go to References" },
-      { "gi", "<cmd>Telescope lsp_implementations<cr>", desc = "Go to Implementation" },
-      { "gt", "<cmd>Telescope lsp_type_definitions<cr>", desc = "Go to Type Definition" },
-      { "<leader>ds", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
-      { "<leader>ws", "<cmd>Telescope lsp_workspace_symbols<cr>", desc = "Workspace Symbols" },
-      { "<leader>ca", "<cmd>Telescope lsp_code_actions<cr>", desc = "Code Actions" },
-    },
+    event = "VeryLazy",
     opts = function()
       local actions = require("telescope.actions")
       
@@ -149,9 +109,56 @@ return {
     end,
     config = function(_, opts)
       require("telescope").setup(opts)
-      
+
       -- Load extensions
       pcall(require("telescope").load_extension, "fzf")
+
+      -- Set up keymaps with explicit noremap and silent
+      local function map(mode, lhs, rhs, desc)
+        vim.keymap.set(mode, lhs, rhs, { desc = desc, noremap = true, silent = true })
+      end
+
+      -- File/Find mappings
+      map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", "Find Files")
+      map("n", "<leader>fg", "<cmd>Telescope live_grep<cr>", "Live Grep")
+      map("n", "<leader>fb", "<cmd>Telescope buffers<cr>", "Buffers")
+      map("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", "Help Tags")
+      map("n", "<leader>fr", "<cmd>Telescope oldfiles<cr>", "Recent Files")
+      map("n", "<leader>fc", "<cmd>Telescope commands<cr>", "Commands")
+      map("n", "<leader>fs", "<cmd>Telescope grep_string<cr>", "Grep String")
+      map("n", "<leader>fw", "<cmd>Telescope grep_string<cr>", "Word under cursor")
+      map("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", "Keymaps")
+      map("n", "<leader>ft", "<cmd>Telescope filetypes<cr>", "File Types")
+      map("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", "Diagnostics")
+      map("n", "<leader>fq", "<cmd>Telescope quickfix<cr>", "Quickfix")
+      map("n", "<leader>fl", "<cmd>Telescope loclist<cr>", "Location List")
+      map("n", "<leader>fj", "<cmd>Telescope jumplist<cr>", "Jumplist")
+      map("n", "<leader>fm", "<cmd>Telescope marks<cr>", "Marks")
+      map("n", "<leader>fR", "<cmd>Telescope registers<cr>", "Registers")
+      map("n", "<leader>fo", "<cmd>Telescope vim_options<cr>", "Vim Options")
+      map("n", "<leader>fa", "<cmd>Telescope autocommands<cr>", "Autocommands")
+      map("n", "<leader>fH", "<cmd>Telescope highlights<cr>", "Highlights")
+      map("n", "<leader>f/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Buffer Fuzzy Find")
+      map("n", "<leader>f:", "<cmd>Telescope command_history<cr>", "Command History")
+      map("n", "<leader>f;", "<cmd>Telescope search_history<cr>", "Search History")
+
+      -- Git mappings
+      map("n", "<leader>gf", "<cmd>Telescope git_files<cr>", "Git Files")
+      map("n", "<leader>gs", "<cmd>Telescope git_status<cr>", "Git Status")
+      map("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", "Git Branches")
+      map("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", "Git Commits")
+      map("n", "<leader>gC", "<cmd>Telescope git_bcommits<cr>", "Git Buffer Commits")
+      map("n", "<leader>gh", "<cmd>Telescope git_stash<cr>", "Git Stash")
+
+      -- LSP mappings
+      map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", "Go to Definition")
+      map("n", "gD", "<cmd>Telescope lsp_declarations<cr>", "Go to Declaration")
+      map("n", "gr", "<cmd>Telescope lsp_references<cr>", "Go to References")
+      map("n", "gi", "<cmd>Telescope lsp_implementations<cr>", "Go to Implementation")
+      map("n", "gt", "<cmd>Telescope lsp_type_definitions<cr>", "Go to Type Definition")
+      map("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols")
+      map("n", "<leader>ws", "<cmd>Telescope lsp_workspace_symbols<cr>", "Workspace Symbols")
+      map("n", "<leader>ca", "<cmd>Telescope lsp_code_actions<cr>", "Code Actions")
     end,
   },
 } 
