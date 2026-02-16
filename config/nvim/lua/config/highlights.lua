@@ -42,6 +42,21 @@ function M.setup()
       
       -- Notify borders
       vim.api.nvim_set_hl(0, "NotifyBorder", { fg = white })
+      
+      -- Terminal colors - use same background as Normal
+      vim.api.nvim_set_hl(0, "Terminal", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "TerminalNormal", { link = "Normal" })
+      vim.api.nvim_set_hl(0, "TerminalNC", { link = "Normal" })
+      
+      -- SmoothCursor highlight groups for the trail effect
+      vim.api.nvim_set_hl(0, "SmoothCursor", { fg = "#FFD700" })
+      vim.api.nvim_set_hl(0, "SmoothCursorRed", { fg = "#E06C75" })
+      vim.api.nvim_set_hl(0, "SmoothCursorOrange", { fg = "#E5C07B" })
+      vim.api.nvim_set_hl(0, "SmoothCursorYellow", { fg = "#FFD700" })
+      vim.api.nvim_set_hl(0, "SmoothCursorGreen", { fg = "#98C379" })
+      vim.api.nvim_set_hl(0, "SmoothCursorAqua", { fg = "#56B6C2" })
+      vim.api.nvim_set_hl(0, "SmoothCursorBlue", { fg = "#61AFEF" })
+      vim.api.nvim_set_hl(0, "SmoothCursorPurple", { fg = "#C678DD" })
     end,
   })
   

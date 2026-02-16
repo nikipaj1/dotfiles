@@ -38,6 +38,7 @@ opt.splitkeep = "screen"
 opt.splitright = true
 opt.tabstop = 2
 opt.termguicolors = true
+vim.o.background = "dark"
 opt.timeoutlen = 300
 opt.undofile = true
 opt.undolevels = 10000

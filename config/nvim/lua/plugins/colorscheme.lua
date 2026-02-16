@@ -1,19 +1,31 @@
--- VSCode colorscheme configuration
+-- Tokyo Night colorscheme configuration
 return {
   {
-    "Mofiqul/vscode.nvim",
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    config = function()
-      require("vscode").setup({
-        transparent = false,
-        italic_comments = true,
-        disable_nvimtree_bg = true,
-        -- Use 'dark' or 'light' theme
-        color_overrides = {},
-        group_overrides = {},
-      })
-      require("vscode").load()
+    opts = {
+      style = "night", -- Options: 'storm', 'moon', 'night', 'day'
+      transparent = false,
+      terminal_colors = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = {},
+        variables = {},
+        sidebars = "dark",
+        floats = "dark",
+      },
+      sidebars = { "qf", "help", "neo-tree", "terminal", "packer" },
+      day_brightness = 0.3,
+      hide_inactive_statusline = false,
+      dim_inactive = false,
+      lualine_bold = false,
+    },
+    config = function(_, opts)
+      vim.o.background = "dark"  -- Force dark mode
+      require("tokyonight").setup(opts)
+      vim.cmd.colorscheme("tokyonight-night")  -- Explicitly use night variant
     end,
   },
 } 

@@ -243,7 +243,7 @@ return {
 
       return {
         options = {
-          theme = "dracula",
+          theme = "tokyonight",
           globalstatus = true,
           disabled_filetypes = { statusline = { "dashboard", "alpha" } },
         },

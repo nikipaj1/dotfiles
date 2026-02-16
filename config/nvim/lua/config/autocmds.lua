@@ -1,6 +1,9 @@
 -- Autocmds configuration
 -- ~/.config/nvim/lua/config/autocmds.lua
 
+-- Suppress deprecation warnings for Neovim 0.10
+vim.deprecate = function() return end
+
 local function augroup(name)
   return vim.api.nvim_create_augroup("lazyvim_" .. name, { clear = true })
 end

@@ -16,6 +16,10 @@ return {
         comment_placeholder = "   ",
         lsp_cfg = {
           capabilities = require("cmp_nvim_lsp").default_capabilities(),
+          flags = {
+            debounce_text_changes = 150,
+            allow_incremental_sync = true,
+          },
           settings = {
             gopls = {
               analyses = {

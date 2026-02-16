@@ -50,7 +50,12 @@ return {
               ["<C-c>"] = actions.close,
               ["<Down>"] = actions.move_selection_next,
               ["<Up>"] = actions.move_selection_previous,
-              ["<CR>"] = actions.select_default,
+              ["<CR>"] = function(prompt_bufnr)
+                local selection = require("telescope.actions.state").get_selected_entry()
+                if selection then
+                  actions.select_default(prompt_bufnr)
+                end
+              end,
               ["<C-x>"] = actions.select_horizontal,
               ["<C-v>"] = actions.select_vertical,
               ["<C-t>"] = actions.select_tab,
@@ -67,7 +72,12 @@ return {
             },
             n = {
               ["<esc>"] = actions.close,
-              ["<CR>"] = actions.select_default,
+              ["<CR>"] = function(prompt_bufnr)
+                local selection = require("telescope.actions.state").get_selected_entry()
+                if selection then
+                  actions.select_default(prompt_bufnr)
+                end
+              end,
               ["<C-x>"] = actions.select_horizontal,
               ["<C-v>"] = actions.select_vertical,
               ["<C-t>"] = actions.select_tab,
