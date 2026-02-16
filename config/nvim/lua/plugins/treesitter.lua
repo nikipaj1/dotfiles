@@ -73,6 +73,7 @@ return {
         "rust",
         "terraform",
         "hcl",
+        "swift",
       },
       incremental_selection = {
         enable = true,

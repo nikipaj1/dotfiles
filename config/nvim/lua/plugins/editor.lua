@@ -28,6 +28,7 @@ return {
         { "<leader>x", group = "diagnostics/quickfix" },
         { "<leader>n", group = "npm/node" },
         { "<leader>t", group = "terminal/test" },
+        { "<leader>S", group = "swift" },
       })
     end,
   },
@@ -337,6 +338,7 @@ return {
         css = { "prettierd", "prettier", stop_after_first = true },
         scss = { "prettierd", "prettier", stop_after_first = true },
         go = { "goimports", "gofmt" },
+        swift = { "swiftformat" },
       },
       format_on_save = function(bufnr)
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then

@@ -51,5 +51,6 @@
   "vim-react-snippets": { "branch": "main", "commit": "6b0c209ae9f9491902e1a76310e4060e6339c470" },
   "vscode-es7-javascript-react-snippets": { "branch": "master", "commit": "185bb91a0b692c54136663464e8225872c434637" },
   "vscode.nvim": { "branch": "main", "commit": "cb9df0873c10a21d05362455ae3bb355eadcef6b" },
-  "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" }
+  "which-key.nvim": { "branch": "main", "commit": "370ec46f710e058c9c1646273e6b225acf47cbed" },
+  "xcodebuild.nvim": { "branch": "main", "commit": "e0d54db14ae87ac1cc205e31de5923565a33882c" }
 }

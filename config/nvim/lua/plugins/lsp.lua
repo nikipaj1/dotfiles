@@ -107,6 +107,30 @@ return {
             },
           },
         },
+        -- Swift (sourcekit-lsp comes with Xcode)
+        sourcekit = {
+          cmd = {
+            "xcrun",
+            "--sdk",
+            "iphonesimulator",
+            "sourcekit-lsp"
+          },
+          filetypes = { "swift", "objective-c", "objective-cpp" },
+          root_dir = function(filename, _)
+            local util = require("lspconfig.util")
+            return util.root_pattern("buildServer.json")(filename)
+              or util.root_pattern("*.xcodeproj", "*.xcworkspace")(filename)
+              or util.root_pattern("compile_commands.json", "Package.swift")(filename)
+              or util.find_git_ancestor(filename)
+          end,
+          settings = {
+            swift = {
+              inlayHints = {
+                enabled = false,
+              },
+            },
+          },
+        },
       },
       setup = {},
     },
@@ -159,13 +183,20 @@ return {
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
         callback = function(ev)
-          local opts = { buffer = ev.buf }
+          local bufnr = ev.buf
+          local opts = { buffer = bufnr }
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
           vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
           vim.keymap.set("n", "<leader>lf", function()
             vim.lsp.buf.format({ async = true })
           end, opts)
+
+          -- Disable inlay hints for Swift files
+          local filetype = vim.bo[bufnr].filetype
+          if filetype == "swift" then
+            vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
+          end
         end,
       })
     end,
